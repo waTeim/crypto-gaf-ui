@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  gafd-ui:
+    build:
+      context: .
+    image: cgaf-gafd-ui
+    ports:
+      - 3000:80
+networks:
+  default:
+    external:
+      name: cgaf
