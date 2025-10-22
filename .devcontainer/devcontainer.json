@@ -1,0 +1,52 @@
+{
+  "name": "crypto-gaf-ui",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "yarn": "latest"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "files.eol": "\n",
+        "security.workspace.trust.enabled": true,
+        "security.promptForLocalFileProtocolHandling": false,
+        "remote.extensionKind": { "openai.chatgpt": "workspace" }
+      },
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "openai.chatgpt"
+      ]
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/codex,target=/home/vscode/.codex,type=bind,consistency=cached"
+  ],
+  "updateContentCommand": "corepack enable && node -v && python -V",
+  "runArgs": [
+    "--env-file", "${localWorkspaceFolder}/.devcontainer/local.env"
+  ],
+  "forwardPorts": [1455],
+  "portsAttributes": {
+    "1455": { "onAutoForward": "openBrowser", "protocol": "http", "localPort": 1455 }
+  }
+}
