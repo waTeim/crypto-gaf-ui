@@ -18,9 +18,18 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
 
+  const config = window.__APP_CONFIG__ || {};
+  const apiBaseUrl = config.apiBaseUrl || process.env.REACT_APP_API_BASE_URL || '';
+  const productId = config.productId || 'BTC-USD';
+  const productLabel = config.productLabel || 'BTC';
+
+  const normalizedBase = apiBaseUrl ? apiBaseUrl.replace(/\/+$/, '') : '';
+  const apiPath = `/api/gaf/image?product=${encodeURIComponent(productId)}`;
+  const apiUrl = normalizedBase ? `${normalizedBase}${apiPath}` : apiPath;
+
   return (
-    <div class={classes.fullScreen}>
-    <MedianImage url="http://localhost:6350/api/gaf/image?product=BTC-USD" product="BTC"/>
+    <div className={classes.fullScreen}>
+      <MedianImage url={apiUrl} product={productLabel}/>
     </div>
   );
 }

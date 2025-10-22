@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "crypto-gaf-ui.fullname" . }}-nginx
+  labels:
+    {{- include "crypto-gaf-ui.labels" . | nindent 4 }}
+data:
+  default.conf: |
+    server {
+        listen {{ .Values.containerPort }};
+        listen [::]:{{ .Values.containerPort }};
+        server_name _;
+
+        root /var/www/html;
+        index index.html;
+
+        location / {
+            try_files {{ "$" }}uri /index.html;
+        }
+    }
+  config.js: |
+    window.__APP_CONFIG__ = {
+      apiBaseUrl: "{{ .Values.appConfig.apiBaseUrl }}",
+      productId: "{{ .Values.appConfig.productId }}",
+      productLabel: "{{ .Values.appConfig.productLabel }}"
+    };
